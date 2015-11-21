@@ -1,0 +1,1104 @@
+<!-- whitemales.html -->
+
+<!DOCTYPE html>
+<style>
+
+h1 {
+  font-weight: lighter;
+  font-size: 20px;
+  padding: 1em;
+  text-align: center;
+}
+
+.bottombreak {
+  padding: 1em;
+}
+
+</style>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" href="assets/style.css" />
+<script src="assets/d3.v3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="assets/d3pie.min.js"></script>
+<script src="assets/d3.tip.v0.6.3.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+
+</head>
+<body>
+<div id="container">
+	<div class="title">Analysis of TIME Person of the Year Candidates</div><p>
+  <p>When I first saw the candidates for the <a href="http://time.com/4108617/person-of-the-year-poll-2015/">2015 TIME Person of the Year</a> I was very surprised because it seemed like a very weak list, filled mainly with people who are only relevant to the media (because part of the selection is based on who has been featured the most <i>in</i> the media...) and not to the general public. Though, starting in 2006 when TIME picked 'you' (me) it seems like somewhere the process had gone wrong, so I guess I can't say I was too surprised.</p>
+  <p>I believe that the PotY is the person who has most influenced the world (not just the US). In the spirit of meritocracy and quantifiable importance it seems like the TIME PotY would be the President of the United States most of the time (and indeed, almost every President has won it almost once), but I can understand that it's bad marketing to always have the same person. That being said, one of the candidates this year is a horse. </p>
+  <p>There are a lot of really talented and qualified people in the 2015 list (full list found <a href="http://time.com/4110428/person-of-the-year-readers-poll-results-2015/">here</a>), but there are also a few surprises. <a href="https://en.wikipedia.org/wiki/Kim_Davis_(county_clerk)">Kim Davis</a>, the clerk who refused to sign same-sex marriages was included. While a pivotal figure in American politics, she's a non-issue for most of the world. Other trends that I noticed: the rise of tech, the exclusion of women of color <i>not</i> from America, the focus on America and especially American politics (have <a href="https://en.wikipedia.org/wiki/Ben_Carson">Ben Carson</a>, <a href="https://en.wikipedia.org/wiki/Carly_Fiorina">Carly Fiorina</a>, <a href="https://en.wikipedia.org/wiki/Ted_Cruz">Ted Cruz</a>, and <a href="https://en.wikipedia.org/wiki/Donald_Trump">Donald Trump</a> <i>really</i> changed the narrative that much?), and the continuing tradition of cop-outs a la 2006 in <a href="https://en.wikipedia.org/wiki/American_Pharoah">American Pharaoh</a> and "refugees." Let's get down to it!</p>
+<!--   Let's start with some of my first thoughts: <br>
+  Very focused on the American Presidential race.<br>
+  Very focused on politics in general (although, it should be, as these people have the most power). But the things that our society values are Tech, Business, and Politics?<br>
+  Lot of people who were known for a 'first' (important, to be sure)<br>
+  Lot of black women, not so many non-white/black women?<br> -->
+	<div class='container'>
+    <h1>Profession</h1>
+    <p>On my first run-through of the list I noticed that most of the people listed were either politicians, leaders, or government officials of some sort. This isn't too surprising because it's usually these people who have the most power. </p>
+    <p>One thing that was surprising though was the prevalence of tech company CEOs. There's talk of the Silicon Valley bubble, and I believe this really speaks to it. It's great that companies like Facebook (<a href="https://en.wikipedia.org/wiki/Mark_Zuckerberg">Mark Zuckerberg</a>) and Google (<a href="https://en.wikipedia.org/wiki/Sundar_Pichai">Sundar Pichai</a>) are trying bring about greater internet access in the world, but do the CEOs of Uber (<a href="https://en.wikipedia.org/wiki/Travis_Kalanick">Travis Kalanick</a>) and Oculus (<a href="https://en.wikipedia.org/wiki/Palmer_Luckey">Palmer Luckey</a>) affect anybody but the most privileged? I'll also use this moment to mention that all four tech CEOs are male, no <a href="https://en.wikipedia.org/wiki/Marissa_Mayer">Marissa Mayer</a>?</p><br>
+		<div class="graphone"></div>
+    <p>We can also see which government officials TIME decided to include:</p><br>
+    <div class="graphpols"></div>
+    <p>We have 12 heads of state, almost half of whom are from the Middle East. We almost have the United Nations Security Council (sorry <a href="https://en.wikipedia.org/wiki/David_Cameron">David Cameron</a>!) Note that countries not the United States have no politicians mentioned besides their leader (sorry <a href="https://en.wikipedia.org/wiki/Jeremy_Corbyn">Jeremy Corbyn</a>!)</p>
+
+
+    <h1>Nationality</h1>
+    <p>We can also examine the candidates by continent (I let the Middle East be its own continent). There is <i>one</i> candidate from the entirety of Africa, and <i>none</i> from South America (unless you count <a href="https://en.wikipedia.org/wiki/Pope_Francis">Pope Francis</a>, which I won't). Crazy, huh?</p> <br><div class="graphtwohalf"></div>
+    <p>The other easy split is by nationality. This list is decidedly American. More specifically, 39 out of 58 candidates are from the United States. That's almost <i>double</i> the rest of the world. We'll talk about who these Americans are later, but for now, let's talk about the non-Americans, and what it takes for them to get on the TIME list.</p>
+    <div class="nonamprof"></div>
+    <p>It's fairly diverse (though an emphasis on government), but what we really miss are those involved in sports and tech.</p>
+     <h1>Race and Gender</h1>
+    <p>Both race and gender are social constructions (more or less), but identifying them is important in seeing our own biases. I assigned each person only one race for ease in analysis, so please let me know if you feel that someone's race is incorrect. 
+    </p>
+    <p>
+    The biggest problem I see is that there are several African-American women (great!), but there is only one Asian woman (<a href="https://en.wikipedia.org/wiki/Malala_Yousafzai">Malala Yousafzai</a>). There are no African women. There are no Latinas. I have a few suggestions (and there are a ton out there): <a href="https://en.wikipedia.org/wiki/Dilma_Rousseff">Dilma Rousseff</a>, the President of Brazil, or <a href="https://en.wikipedia.org/wiki/Aung_San_Suu_Kyi">Aung San Suu Kyi</a>, the Burmese opposition leader. It's been a dude or a group since 1986! 
+    <p>There are 21 women, out of 58 candidates. That's still only about one-third. Out of these, let's compare their nationality:
+    </p>
+    <div class="graphfour"></div>
+    <p>So we have <a href="https://en.wikipedia.org/wiki/Angela_Merkel">Angela Merkel</a> from Germany and <a href="https://en.wikipedia.org/wiki/Adele">Adele</a> and <a href="https://en.wikipedia.org/wiki/J._K._Rowling">J.K. Rowling</a> from the United Kingdom, all three of whom are white.</p>
+    <p>But we should also examine the American women on the list, of which there are 17 total. </p><br>
+    <div class="graphamwomen"></div>
+    <p>We can also see their professions:</p><br>
+    <div class="graphamwomenprof"></div>
+    <p>The two women who play sports are the only people from the sports world on TIME's list (and they both happen to be from the United States).
+
+
+    <h1>American Politicians</h1>
+    <p>Now we get to the good stuff: how many of these people are somehow related to the 2016 United States Presidential race? There are eight US presidential candidates in this list, which is about 13.8% of TIME's list. The presidential candidates (emphasis on the word candidate) include such world-changers as Ben Carson and Carly Fiorina. Now if we add people who were brought to national attention by these presidential candidates or are deeply involved (and I recognize that a few were already famous before, for other reasons), Kim Davis, <a href="https://en.wikipedia.org/wiki/Megyn_Kelly">Megyn Kelly</a>, <a href="https://en.wikipedia.org/wiki/Jorge_Ramos_(news_anchor)">Jorge Ramos</a>, <a href="https://en.wikipedia.org/wiki/Cecile_Richards">Cecile Richards</a>, and <a href="https://en.wikipedia.org/wiki/Political_activities_of_the_Koch_brothers">Charles and David Koch</a>, the number rises to 13. That's almost one-fifth of all of TIME's candidates. This is also <i>half</i> of all government-related TIME candidates. Out of all Americans:
+    </p><br>
+    <div class="bennyc"></div>
+    <p>And all this before any primary - their name recognition problems must not be as bad as they seem!  </p>
+
+
+    <div class="horses">
+      <h1>American Pharaoh</h1>
+      <p>
+        The number of people, as of November 20th, 2015, ranked below a horse, for Person of the Year: 
+       <div class="apout"><div class="ap">22</div></div>
+      </p>
+    </div><hr>
+		<div class="information">
+    <h1>Notes on this Analysis</h1>
+    <p>
+      I hard-inputted the data, using Wikipedia when necessary. To create the infographics and charts I used d3.js. This infographic looks best on the screen I used to code it (Chrome + Yosemite + 13"). Please send all comments / questions / critiques / suggestions to jmahabal@berkeley.edu. You can grab my data file in .csv format <a href="timepoty.csv">here</a>. Thanks for reading!
+    </p>  
+    <div class="bottombreak"></div>
+    </div>
+	</div>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+
+// var width = 850,
+var w1 = 550, 
+    height = 250;
+
+var width = w1,
+    barHeight = 20;
+
+var w = 850;
+var h = 100;
+var barPadding = 1; 
+
+var svg = d3.select(".graphone").append("svg")
+	  .attr("align", "center")
+    .attr("width", width)
+    .attr("fill", "#2C3E50")
+    .attr("height", height);
+
+var svg2 = d3.select(".graphtwo").append("svg")
+    .attr("align", "center")
+    .attr("width", width)
+        .attr("fill", "#2C3E50")
+    .attr("height", height*2.4);
+
+var svg2half = d3.select(".graphtwohalf").append("svg")
+    .attr("align", "center")
+        .attr("fill", "#2C3E50")
+    .attr("width", width)
+    .attr("height", height*0.8);
+
+var svg3 = d3.select(".graphthree").append("svg")
+    .attr("align", "center")
+    .attr("width", width)    .attr("fill", "#2C3E50")
+    .attr("height", height*2);
+
+var svg4 = d3.select(".graphfour").append("svg")
+    .attr("align", "center")
+    .attr("width", width)    .attr("fill", "#2C3E50")
+    .attr("height", height/2);
+
+var svgamwomen = d3.select(".graphamwomen").append("svg")
+    .attr("align", "center")
+    .attr("width", width)    .attr("fill", "#2C3E50")
+    .attr("height", height/3);
+
+var svgamwomenprof = d3.select(".graphamwomenprof").append("svg")
+    .attr("align", "center")
+    .attr("width", width)    .attr("fill", "#2C3E50")
+    .attr("height", height/2);
+
+var svgnonamprof = d3.select(".nonamprof").append("svg")
+    .attr("align", "center")
+    .attr("width", width)    .attr("fill", "#2C3E50")
+    .attr("height", height*0.8);
+
+var svgpols = d3.select(".graphpols").append("svg")
+    .attr("align", "center")
+    .attr("width", width)    .attr("fill", "#2C3E50")
+    .attr("height", height*1.5);
+
+var svgbennyc = d3.select(".bennyc").append("svg")
+    .attr("align", "center")
+    .attr("width", width)    .attr("fill", "#2C3E50")
+    .attr("height", height/3);
+
+var data = "timepoty.csv";
+
+$(function(){
+	queue()
+		.defer(d3.csv, data)
+	.await(dataDidLoad);
+});
+
+function dataDidLoad(error, data) {
+	// console.log(data);
+	// var pointlist = [];
+	// for (var i = data.length - 1; i >= 0; i--) {
+	// 	pointlist.push(parseInt(data[i]['Number Female'])*25);
+	// };
+	// console.log(pointlist);
+	createBarChart1(data);
+  createBarChart2(data);
+  createBarChart3(data);
+  createBarChart4(data);
+  createBarChartAmWomen(data);
+  createBarChartAmWomenProf(data);
+  createBarChartNonAmProf(data);
+  createBarChartPols(data);
+  createBarChartBennyC(data);
+	// addinfo(data);
+};
+
+function createBarChart1(inputs) {
+	// console.log(inputs);
+	var points = {};
+	for (var i = inputs.length - 1; i >= 0; i--) {
+    if (points[inputs[i]['Field']] == null){
+      points[inputs[i]['Field']] = 1;
+    } else {
+      points[inputs[i]['Field']] += 1;
+    }
+	};
+
+  var sortable = [];
+  for (var term in points){
+        sortable.push([term, points[term]])
+  };
+  sortable.sort(function(a, b) {return a[1] - b[1]}).reverse();
+
+  var points = {};
+
+  for (i in sortable){
+    // console.log(i);
+    points[sortable[i][0]] = sortable[i][1];
+  };
+
+	// console.log(points);
+  // console.log(points["Government"]);
+
+  var bar = svg.selectAll("rect")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d] * 10; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    });
+
+
+
+    var bar2 = svg.selectAll("text")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d) {
+          return d;
+     })
+     .attr("text-anchor", "end")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 190;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+    var bar1 = svg.selectAll("text.numbers")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d, i) {
+          return points[d];
+     })  .attr("class", "numbers")
+     // .attr("text-anchor", "beginning")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 200 + (points[d]*10) + 5;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+};
+
+function createBarChart2(inputs) {
+
+var points = {};
+  for (var i = inputs.length - 1; i >= 0; i--) {
+    if (points[inputs[i]['Continent']] == null){
+      points[inputs[i]['Continent']] = 1;
+    } else {
+      points[inputs[i]['Continent']] += 1;
+    }
+  };
+
+    var sortable = [];
+  for (var term in points){
+        sortable.push([term, points[term]])
+  };
+  sortable.sort(function(a, b) {return a[1] - b[1]}).reverse();
+
+  var points = {};
+
+  for (i in sortable){
+    // console.log(i);
+    points[sortable[i][0]] = sortable[i][1];
+  };
+
+var bar3 = svg2half.selectAll("rect")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d] * 7; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    });
+
+
+
+    var threebartext = svg2half.selectAll("text")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d) {
+          return d;
+     })
+     .attr("text-anchor", "end")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 190;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+     var threebartext2 = svg2half.selectAll("text.numbers")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d, i) {
+          return points[d];
+     })  .attr("class", "numbers")
+     // .attr("text-anchor", "beginning")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 200 + (points[d]*7) + 5;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+
+  // console.log(inputs);
+  var malepoints = {};
+  var femalepoints = {};
+  var points = {};
+
+  for (var i = inputs.length - 1; i >= 0; i--){
+    points[inputs[i]['Nationality']] = [0, 0];
+  };
+
+  for (var i = inputs.length - 1; i >= 0; i--) {
+    if (points[inputs[i]['Nationality']][0] == null && inputs[i]['Male'] == 'Yes'){
+      points[inputs[i]['Nationality']][0] = 1;
+    } else if (points[inputs[i]['Nationality']][1] == null && inputs[i]['Male'] == 'No') {
+      points[inputs[i]['Nationality']][1] = 1;
+    } else {
+      if (inputs[i]['Male'] == 'Yes'){
+        points[inputs[i]['Nationality']][0] += 1;
+      } else {
+        points[inputs[i]['Nationality']][1] += 1;
+      };
+    };
+  };
+
+  // console.log("hi");
+  // console.log(points);
+  var sortable = [];
+  for (var term in malepoints){
+        sortable.push([term, malepoints[term]])
+  };
+  sortable.sort(function(a, b) {return a[1] - b[1]}).reverse();
+
+  var points2 = {};
+
+  for (i in sortable){
+    // console.log(i);
+    points2[sortable[i][0]] = sortable[i][1];
+  };
+
+  // console.log(sortable);
+  // console.log(points2);
+  // console.log(points["Nationality"]);
+
+  var bar2 = svg2.selectAll("rect")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return width/2 - 100 - (points[d][1]*20);
+      // return width/2 + 100;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+     // console.log(d);
+        return (points[d][0] + points[d][1]) * 20 + 200; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    });
+
+    var twobartext = svg2.selectAll("text")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d) {
+          return d;
+     })
+     .attr("text-anchor", "middle")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return width/2;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 16;  
+      })
+     .attr("font-size", "16px")
+     .attr("background", "white")
+     .attr("fill", "white");
+
+     var twobartext2 = svg2.selectAll("text.numbers")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d, i) {
+          return points[d];
+     })  .attr("class", "numbers")
+     // .attr("text-anchor", "beginning")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return (points[d][0] + points[d][1]) * 20 + 200;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+
+  
+
+     };
+
+function createBarChart3(inputs) {
+  // console.log(inputs);
+  var points = {};
+  for (var i = inputs.length - 1; i >= 0; i--) {
+    if (points[inputs[i]['Nationality']] == null){
+      points[inputs[i]['Nationality']] = 1;
+    } else {
+      points[inputs[i]['Nationality']] += 1;
+    }
+  };
+
+  // console.log(points);
+  // console.log(points["Nationality"]);
+
+  var bar3 = svg3.selectAll("rect")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d] * 20; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    });
+
+    var threebartext = svg3.selectAll("text")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d) {
+          return d;
+     })
+     .attr("text-anchor", "end")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 190;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+
+     var threebartext2 = svg3.selectAll("text.numbers")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d, i) {
+          return points[d];
+     })  .attr("class", "numbers")
+     // .attr("text-anchor", "beginning")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 200 + (points[d]*20) + 5;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+};
+
+function createBarChart4(inputs) {
+  console.log(inputs);
+  var points = {};
+  var womenlist = [];
+  for (var i = inputs.length - 1; i >= 0; i--) {
+    if (inputs[i]['Male'] == 'No'){
+      womenlist.push(inputs[i]);
+      // points[inputs[i]['Candidate']] = inputs[i];
+    };
+  };
+
+  for (var i = womenlist.length - 1; i >= 0; i--) {
+    if (points[womenlist[i]['Nationality']] == null){
+      points[womenlist[i]['Nationality']] = 1;
+    } else {
+      points[womenlist[i]['Nationality']] += 1;
+    }
+  };
+
+  var sortable = [];
+  for (var term in points){
+        sortable.push([term, points[term]])
+  };
+  sortable.sort(function(a, b) {return a[1] - b[1]}).reverse();
+
+  var points = {};
+
+  for (i in sortable){
+    // console.log(i);
+    points[sortable[i][0]] = sortable[i][1];
+  };
+
+  console.log(points);
+  // console.log(points["Nationality"]);
+
+  var bar4 = svg4.selectAll("rect")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d] * 16; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    });
+
+    var fourbartext = svg4.selectAll("text")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d) {
+          return d;
+     })
+     .attr("text-anchor", "end")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 190;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+
+     var fourbartext2 = svg4.selectAll("text.numbers")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d, i) {
+          return points[d];
+     })  .attr("class", "numbers")
+     // .attr("text-anchor", "beginning")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 200 + (points[d]*16) + 5;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+};
+
+function createBarChartAmWomen(inputs) {
+  // console.log(inputs);
+  var points = {};
+  var amwomenlist = [];
+  for (var i = inputs.length - 1; i >= 0; i--) {
+    if (inputs[i]['Nationality'] == 'American' && inputs[i]['Male'] == 'No'){
+      amwomenlist.push(inputs[i]);
+      // points[inputs[i]['Candidate']] = inputs[i];
+    };
+  };
+
+  for (var i = amwomenlist.length - 1; i >= 0; i--) {
+    if (points[amwomenlist[i]['Race']] == null){
+      points[amwomenlist[i]['Race']] = 1;
+    } else {
+      points[amwomenlist[i]['Race']] += 1;
+    }
+  };
+  // console.log("amw");
+  // console.log(points);
+  var sortable = [];
+  for (var term in points){
+        sortable.push([term, points[term]])
+  };
+  sortable.sort(function(a, b) {return a[1] - b[1]}).reverse();
+
+  var points = {};
+
+  for (i in sortable){
+    // console.log(i);
+    points[sortable[i][0]] = sortable[i][1];
+  };
+
+  // console.log(womenlist);
+  // console.log(points["Nationality"]);
+
+  var baramwomen = svgamwomen.selectAll("rect")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d] * 20; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    })
+    .attr("fill", function(d, i){
+        if (i == 1){
+          return "#019875";
+        }
+    });
+
+    var amwomenbartext = svgamwomen.selectAll("text")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d) {
+          return d;
+     })
+     .attr("text-anchor", "end")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 190;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+
+     var amwomenbartext2 = svgamwomen.selectAll("text.numbers")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d, i) {
+          return points[d];
+     })  .attr("class", "numbers")
+     // .attr("text-anchor", "beginning")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 200 + (points[d]*20) + 5;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+};
+
+function createBarChartAmWomenProf(inputs) {
+  // console.log(inputs);
+  var points = {};
+  var amwomenlist = [];
+  for (var i = inputs.length - 1; i >= 0; i--) {
+    if (inputs[i]['Nationality'] == 'American' && inputs[i]['Male'] == 'No'){
+      amwomenlist.push(inputs[i]);
+      // points[inputs[i]['Candidate']] = inputs[i];
+    };
+  };
+
+  for (var i = amwomenlist.length - 1; i >= 0; i--){
+    points[amwomenlist[i]['Field']] = [0, 0];
+  };
+
+  // for (var i = amwomenlist.length - 1; i >= 0; i--) {
+  //   if (points[amwomenlist[i]['Field']] == null){
+  //     points[amwomenlist[i]['Field']] = 1;
+  //   } else {
+  //     points[amwomenlist[i]['Field']] += 1;
+  //   }
+  // };
+
+  for (var i = amwomenlist.length - 1; i >= 0; i--) {
+    if (points[amwomenlist[i]['Field']][1] == null && amwomenlist[i]['Race'] == 'White'){
+      points[amwomenlist[i]['Field']][1] = 1;
+    } else if (points[amwomenlist[i]['Field']][0] == null && amwomenlist[i]['Race'] == 'Black') {
+      points[amwomenlist[i]['Field']][0] = 1;
+    } else {
+      if (amwomenlist[i]['Race'] == 'White'){
+        points[amwomenlist[i]['Field']][1] += 1;
+      } else {
+        points[amwomenlist[i]['Field']][0] += 1;
+      };
+    };
+  };
+
+  // console.log(points);
+  // console.log(points["Nationality"]);
+
+  var baramwomenprof = svgamwomenprof.selectAll("rect")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d][1] * 20; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    });
+
+    var baramwomenprof = svgamwomenprof.selectAll("rect.white")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200+points[d][1] * 20;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d][0] * 20; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    })
+    .attr("fill", "#019875");
+
+    var amwomenprofbartext = svgamwomenprof.selectAll("text")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d) {
+          return d;
+     })
+     .attr("text-anchor", "end")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 190;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+          var amwomenprofbartext2 = svgamwomenprof.selectAll("text.numbers")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d, i) {
+          return (points[d][1] + "+" + points[d][0]);
+     })  .attr("class", "numbers")
+     // .attr("text-anchor", "beginning")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 200 + ((points[d][0] + points[d][1]) * 20) + 5;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+};
+
+function createBarChartNonAmProf(inputs) {
+  // console.log(inputs);
+  var points = {};
+  for (var i = inputs.length - 1; i >= 0; i--) {
+    if (inputs[i]['Nationality'] != 'American'){
+      if (points[inputs[i]['Field']] == null){
+        points[inputs[i]['Field']] = 1;
+      } else {
+        points[inputs[i]['Field']] += 1;
+      }
+    };
+  };
+
+  var sortable = [];
+  for (var term in points){
+        sortable.push([term, points[term]])
+  };
+  sortable.sort(function(a, b) {return a[1] - b[1]}).reverse();
+
+  var points = {};
+
+  for (i in sortable){
+    // console.log(i);
+    points[sortable[i][0]] = sortable[i][1];
+  };
+
+  // console.log(points);
+  // console.log(points["Government"]);
+
+  var bar = svgnonamprof.selectAll("rect")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d] * 10; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    });
+
+    var onebartextNonAmProf = svgnonamprof.selectAll("text")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d) {
+          return d;
+     })
+     .attr("text-anchor", "end")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 190;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+     var onebartextNonAmProf2 = svgnonamprof.selectAll("text.numbers")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d, i) {
+          return points[d];
+     })  .attr("class", "numbers")
+     // .attr("text-anchor", "beginning")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 200 + (points[d]*10) + 5;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+};
+
+function createBarChartPols(inputs) {
+  // console.log(inputs);
+  var points = {};
+  var polslist = [];
+  for (var i = inputs.length - 1; i >= 0; i--) {
+    if (inputs[i]['Field'] == 'Government'){
+      polslist.push(inputs[i]);
+      // points[inputs[i]['Candidate']] = inputs[i];
+    };
+  };
+
+  for (var i = polslist.length - 1; i >= 0; i--){
+    points[polslist[i]['Nationality']] = [0, 0];
+  };
+
+  // for (var i = amwomenlist.length - 1; i >= 0; i--) {
+  //   if (points[amwomenlist[i]['Field']] == null){
+  //     points[amwomenlist[i]['Field']] = 1;
+  //   } else {
+  //     points[amwomenlist[i]['Field']] += 1;
+  //   }
+  // };
+
+  for (var i = polslist.length - 1; i >= 0; i--) {
+    if (points[polslist[i]['Nationality']][0] == null && polslist[i]['Nationality'] == 'American'){
+      points[polslist[i]['Nationality']][0] = 1;
+    } else if (points[polslist[i]['Nationality']][1] == null) {
+      points[polslist[i]['Nationality']][1] = 1;
+    } else {
+      if (polslist[i]['Nationality'] == 'American'){
+        points[polslist[i]['Nationality']][0] += 1;
+      } else {
+        points[polslist[i]['Nationality']][1] += 1;
+      };
+    };
+  };
+
+  console.log(points);
+  // console.log(points["Nationality"]);
+
+  var barpolsgraph = svgpols.selectAll("rect")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d][1] * 20; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    });
+
+    var barpols = svgpols.selectAll("rect.white")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200+points[d][1] * 20;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d][0] * 20; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    });
+
+    var polstext = svgpols.selectAll("text")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d) {
+          return d;
+     })
+     .attr("text-anchor", "end")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 190;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+    var polstext2 = svgpols.selectAll("text.numbers")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d, i) {
+          return points[d][0]+points[d][1];
+     })  .attr("class", "numbers")
+     // .attr("text-anchor", "beginning")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 200 + ((points[d][0]+points[d][1])*20) + 5;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+};
+
+
+function createBarChartBennyC(inputs) {
+  // console.log(inputs);
+  var points = {};
+  for (var i = inputs.length - 1; i >= 0; i--) {
+    if (inputs[i]['Nationality'] == 'American'){
+      if (points[inputs[i]['2016 Race']] == null){
+        points[inputs[i]['2016 Race']] = 1;
+      } else {
+        points[inputs[i]['2016 Race']] += 1;
+      }
+    };
+  };
+
+  var sortable = [];
+  for (var term in points){
+        sortable.push([term, points[term]])
+  };
+  sortable.sort(function(a, b) {return a[1] - b[1]}).reverse();
+
+  var points = {};
+
+  for (i in sortable){
+    // console.log(i);
+    points[sortable[i][0]] = sortable[i][1];
+  };
+
+  // console.log(points);
+  // console.log(points["Government"]);
+
+  var bar = svgbennyc.selectAll("rect")
+      .data(Object.keys(points))
+    .enter().append("rect")
+    .attr("x", function(d, i) {
+      return 200;  //Bar width of 20 plus 1 for padding
+    })
+    .attr("y", function(d, i) {
+      // console.log(points[d]);
+       return i*30;  //Height minus data value
+    })
+    .attr("width", function(d) {
+        return points[d] * 10; //Just the data value
+    })
+    .attr("height", function(d) {
+        return 26; //Just the data value
+    });
+
+    var bennycbar = svgbennyc.selectAll("text")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d) {
+          return d;
+     })
+     .attr("text-anchor", "end")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 190;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+
+     var bennycbar2 = svgbennyc.selectAll("text.numbers")
+     .data(Object.keys(points))
+       .enter()
+     .append("text")
+     .text(function(d, i) {
+          return points[d];
+     })  .attr("class", "numbers")
+     // .attr("text-anchor", "beginning")
+     .attr("dominant-baseline", "middle")
+     .attr("x", function(d, i) {
+          return 200 + (points[d]*10) + 5;
+      })
+    .attr("y", function(d, i) {
+          return i*30 + 13;  
+      })
+     .attr("font-size", "16px")
+     .attr("fill", "black");
+};
+
+</script>
+</body>
+</html>
